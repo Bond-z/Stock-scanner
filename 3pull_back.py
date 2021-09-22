@@ -13,7 +13,7 @@ class Doji:
 
         start = "2021-05-10"
         # end = datetime.datetime.now()
-        end = "2021-09-21"
+        end = "2021-09-22"
 
         stock = []
         change = []
@@ -91,7 +91,7 @@ class Doji:
         # df1 = df.assign(Change = change)
         df2 = df.assign(Price = current)
         df3 = df2.assign(Volume = volume)
-        df3.to_csv('./daily_stock/pull_back/pull_back20sep'+'.csv')
+        df3.to_csv('./daily_stock/pull_back/pull_back21sep'+'.csv')
 
         print(df3)
         print(stock)
