@@ -12,13 +12,17 @@ class Doji:
         self.symbols = symbols
 
         start = "2021-05-10"
-        # end = datetime.datetime.now()
-        end = "2021-09-21"
+        end = datetime.datetime.now()
+        # end = "2021-09-21"
 
         stock = []
         change = []
         current = []
         volume = []
+
+        two_bearish = []
+        current2 = []
+        volume2 = []
        
         def current_open(data):
             current_open = data[-1:]
@@ -76,7 +80,7 @@ class Doji:
             data = yf.download(ticker+".BK",start, end)
             try:
                 if current_close(data) <  lowest_close_min(data): 
-                # and bullish_candle(data):
+                #  and current_close(data) < 10:
 
                     stock.append(ticker)
                    
@@ -84,21 +88,37 @@ class Doji:
 
                     volume.append(current_volume(data))
 
+                else:
+                     current_close(data) < previous_close(data)
+                    # and current_close(data) < 10:
+                two_bearish.append(ticker)
+                current2.append(current_close(data))
+                volume2.append(current_volume(data))
+
+
             except Exception as e:
                     print('Error: ', str(e))
 
-        df = pandas.DataFrame(stock, columns=['Name'])
+        df = pandas.DataFrame(stock, columns=['3Candles'])
         # df1 = df.assign(Change = change)
         df2 = df.assign(Price = current)
         df3 = df2.assign(Volume = volume)
-        df3.to_csv('./daily_stock/pull_back/pull_back20sep'+'.csv')
+        df3.to_csv('./daily_stock/pull_back/3pull_back{end}'+'.csv')
+
+        df_bearish = pandas.DataFrame(two_bearish, columns=['2Candles'])
+        df_bearish2 = df_bearish.assign(Price = current2)
+        df_bearish3 = df_bearish2.assign(Volume = volume2)
+        df_bearish3.to_csv('./daily_stock/pull_back/2pull_back{end}' +'.csv')
 
         print(df3)
         print(stock)
 
+        print(df_bearish3)
+        print(two_bearish)
+
     
 
-doji = Doji(allset)
+doji = Doji(fin)
 print(doji)
 
 
