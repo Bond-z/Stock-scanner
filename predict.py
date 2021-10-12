@@ -9,10 +9,10 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM 
 
 #Load data
-company = 'CGD.BK'
+company = 'B.BK'
 
 start = dt.datetime(2011,1,1)
-end = dt.datetime(2021,8,31)
+end = dt.datetime(2021,9,23)
 
 data = web.DataReader(company, 'yahoo', start, end)
 

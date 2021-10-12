@@ -12,13 +12,22 @@ class Doji:
         self.symbols = symbols
 
         start = "2021-05-10"
+<<<<<<< HEAD
+        end = datetime.datetime.now()
+        # end = "2021-09-21"
+=======
         # end = datetime.datetime.now()
         end = "2021-09-22"
+>>>>>>> aea94f391d126065c46b3a2c1c63ad7c19b4408c
 
         stock = []
         change = []
         current = []
         volume = []
+
+        four_bearish = []
+        current2 = []
+        volume2 = []
        
         def current_open(data):
             current_open = data[-1:]
@@ -51,14 +60,14 @@ class Doji:
                 change = current_close(data) - previous_close(data)
                 return change
 
-        def last_week_close_min(data):
-            data = data.tail(5)
-            data = data.iloc[0:7]
+        def four_candel_bear(data):
+            data = data.tail(6)
+            data = data.iloc[0:5]
             data = data['Close']
             min_close = np.min(data)
             return min_close
 
-        def lowest_close_min(data):
+        def three_candle_bear(data):
             data = data.tail(5)
             data = data.iloc[0:4]
             data = data['Low']
@@ -75,8 +84,8 @@ class Doji:
         for ticker in symbols:
             data = yf.download(ticker+".BK",start, end)
             try:
-                if current_close(data) <  lowest_close_min(data): 
-                # and bullish_candle(data):
+                if current_close(data) <  three_candle_bear(data): 
+                #  and current_close(data) < 10:
 
                     stock.append(ticker)
                    
@@ -84,17 +93,37 @@ class Doji:
 
                     volume.append(current_volume(data))
 
+                elif current_close(data) < four_candel_bear(data):
+                     
+                    # and current_close(data) < 10:
+                    four_bearish.append(ticker)
+                    current2.append(current_close(data))
+                    volume2.append(current_volume(data))
+
+
             except Exception as e:
                     print('Error: ', str(e))
 
-        df = pandas.DataFrame(stock, columns=['Name'])
+        df = pandas.DataFrame(stock, columns=['3Candles'])
         # df1 = df.assign(Change = change)
         df2 = df.assign(Price = current)
         df3 = df2.assign(Volume = volume)
+<<<<<<< HEAD
+        df3.to_csv('./daily_stock/pull_back/3pull_back12oct'+'.csv')
+
+        df_bearish = pandas.DataFrame(four_bearish, columns=['4Candles'])
+        df_bearish2 = df_bearish.assign(Price = current2)
+        df_bearish3 = df_bearish2.assign(Volume = volume2)
+        df_bearish3.to_csv('./daily_stock/pull_back/2pull_back12oct' +'.csv')
+=======
         df3.to_csv('./daily_stock/pull_back/pull_back21sep'+'.csv')
+>>>>>>> aea94f391d126065c46b3a2c1c63ad7c19b4408c
 
         print(df3)
         print(stock)
+
+        print(df_bearish3)
+        print(four_bearish)
 
     
 
