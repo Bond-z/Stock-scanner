@@ -103,12 +103,12 @@ class Doji:
         # df1 = df.assign(Change = change)
         df2 = df.assign(Price = current)
         df3 = df2.assign(Volume = volume)
-        df3.to_csv('./daily_stock/pull_back/3pull_back11oct'+'.csv')
+        df3.to_csv('./daily_stock/pull_back/3pull_back12oct'+'.csv')
 
         df_bearish = pandas.DataFrame(four_bearish, columns=['4Candles'])
         df_bearish2 = df_bearish.assign(Price = current2)
         df_bearish3 = df_bearish2.assign(Volume = volume2)
-        df_bearish3.to_csv('./daily_stock/pull_back/2pull_back11oct' +'.csv')
+        df_bearish3.to_csv('./daily_stock/pull_back/2pull_back12oct' +'.csv')
 
         print(df3)
         print(stock)
