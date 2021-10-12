@@ -12,8 +12,13 @@ class Doji:
         self.symbols = symbols
 
         start = "2021-05-10"
+<<<<<<< HEAD
         end = datetime.datetime.now()
         # end = "2021-09-21"
+=======
+        # end = datetime.datetime.now()
+        end = "2021-09-22"
+>>>>>>> aea94f391d126065c46b3a2c1c63ad7c19b4408c
 
         stock = []
         change = []
@@ -103,12 +108,16 @@ class Doji:
         # df1 = df.assign(Change = change)
         df2 = df.assign(Price = current)
         df3 = df2.assign(Volume = volume)
+<<<<<<< HEAD
         df3.to_csv('./daily_stock/pull_back/3pull_back12oct'+'.csv')
 
         df_bearish = pandas.DataFrame(four_bearish, columns=['4Candles'])
         df_bearish2 = df_bearish.assign(Price = current2)
         df_bearish3 = df_bearish2.assign(Volume = volume2)
         df_bearish3.to_csv('./daily_stock/pull_back/2pull_back12oct' +'.csv')
+=======
+        df3.to_csv('./daily_stock/pull_back/pull_back21sep'+'.csv')
+>>>>>>> aea94f391d126065c46b3a2c1c63ad7c19b4408c
 
         print(df3)
         print(stock)
