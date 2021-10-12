@@ -20,7 +20,7 @@ class Doji:
         current = []
         volume = []
 
-        two_bearish = []
+        four_bearish = []
         current2 = []
         volume2 = []
        
@@ -55,14 +55,14 @@ class Doji:
                 change = current_close(data) - previous_close(data)
                 return change
 
-        def last_week_close_min(data):
-            data = data.tail(5)
-            data = data.iloc[0:7]
+        def four_candel_bear(data):
+            data = data.tail(6)
+            data = data.iloc[0:5]
             data = data['Close']
             min_close = np.min(data)
             return min_close
 
-        def lowest_close_min(data):
+        def three_candle_bear(data):
             data = data.tail(5)
             data = data.iloc[0:4]
             data = data['Low']
@@ -79,7 +79,7 @@ class Doji:
         for ticker in symbols:
             data = yf.download(ticker+".BK",start, end)
             try:
-                if current_close(data) <  lowest_close_min(data): 
+                if current_close(data) <  three_candle_bear(data): 
                 #  and current_close(data) < 10:
 
                     stock.append(ticker)
@@ -88,12 +88,12 @@ class Doji:
 
                     volume.append(current_volume(data))
 
-                else:
-                     current_close(data) < previous_close(data)
+                elif current_close(data) < four_candel_bear(data):
+                     
                     # and current_close(data) < 10:
-                two_bearish.append(ticker)
-                current2.append(current_close(data))
-                volume2.append(current_volume(data))
+                    four_bearish.append(ticker)
+                    current2.append(current_close(data))
+                    volume2.append(current_volume(data))
 
 
             except Exception as e:
@@ -103,22 +103,22 @@ class Doji:
         # df1 = df.assign(Change = change)
         df2 = df.assign(Price = current)
         df3 = df2.assign(Volume = volume)
-        df3.to_csv('./daily_stock/pull_back/3pull_back{end}'+'.csv')
+        df3.to_csv('./daily_stock/pull_back/3pull_back11oct'+'.csv')
 
-        df_bearish = pandas.DataFrame(two_bearish, columns=['2Candles'])
+        df_bearish = pandas.DataFrame(four_bearish, columns=['4Candles'])
         df_bearish2 = df_bearish.assign(Price = current2)
         df_bearish3 = df_bearish2.assign(Volume = volume2)
-        df_bearish3.to_csv('./daily_stock/pull_back/2pull_back{end}' +'.csv')
+        df_bearish3.to_csv('./daily_stock/pull_back/2pull_back11oct' +'.csv')
 
         print(df3)
         print(stock)
 
         print(df_bearish3)
-        print(two_bearish)
+        print(four_bearish)
 
     
 
-doji = Doji(fin)
+doji = Doji(allset)
 print(doji)
 
 
