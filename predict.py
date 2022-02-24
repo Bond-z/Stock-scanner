@@ -9,10 +9,11 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM 
 
 #Load data
-company = 'B.BK'
+company = 'ZIGA.BK'
 
 start = dt.datetime(2011,1,1)
-end = dt.datetime(2021,9,23)
+# end = dt.datetime(2022,2,19)
+end = dt.datetime.now()
 
 data = web.DataReader(company, 'yahoo', start, end)
 
@@ -50,7 +51,7 @@ model.fit(x_train, y_train, epochs=25, batch_size=32)
 
 #Load test data
 test_start = dt.datetime(2020,1,1)
-test_end = dt.datetime(2021,6,29)
+test_end = dt.datetime(2021,12,29)
 
 test_data = web.DataReader(company, 'yahoo', start, end)
 actual_price = test_data['Close'].values

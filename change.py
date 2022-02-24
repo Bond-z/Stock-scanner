@@ -11,8 +11,9 @@ class Doji:
     def __init__(self, symbols):
         self.symbols = symbols
 
-        start = "2021-06-10"
+        start = "2021-10-25"
         end = datetime.datetime.now()
+        # end = "2021-11-13"
 
         stock = []
         change = []
@@ -74,12 +75,12 @@ class Doji:
         df = pandas.DataFrame(stock, columns=['Name'])
         df1 = df.assign(Change = change)
         df2 = df1.assign(Price = current)
-        df2.to_csv('./daily_stock/changed2sep'+'.csv')
+        df2.to_csv('./daily_stock/changed'+'.csv')
 
         print(df2)
 
 
     
 
-doji = Doji(allset)
+doji = Doji(backtest)
 print(doji)

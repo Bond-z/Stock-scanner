@@ -13,14 +13,14 @@ class Doji:
 
         start = "2021-05-10"
         end = datetime.datetime.now()
-        # end = "2022-1-5"
+        # end = "2021-09-21"
 
         stock = []
         change = []
         current = []
         volume = []
 
-        four_bearish = []
+        high = []
         current2 = []
         volume2 = []
        
@@ -55,19 +55,19 @@ class Doji:
                 change = current_close(data) - previous_close(data)
                 return change
 
-        def four_candel_bear(data):
-            data = data.tail(6)
-            data = data.iloc[0:5]
-            data = data['Close']
-            min_close = np.min(data)
-            return min_close
+        def previous_high(data):
+            last_15candles = data[-30:]
+            max_high = last_15candles['High'].max()
+            
+            return max_high
 
-        def three_candle_bear(data):
-            data = data.tail(5)
-            data = data.iloc[0:4]
-            data = data['Low']
-            lowest_close = np.min(data)
-            return lowest_close
+        def is_inrange(data, percentage=2):
+            recent_high = previous_high(data)
+
+            threshold = 1 - (percentage / 100)
+            diff = recent_high * threshold      
+
+            return diff
 
         def current_volume(data):
             current_volume = data[-1:]
@@ -79,8 +79,9 @@ class Doji:
         for ticker in symbols:
             data = yf.download(ticker+".BK",start, end)
             try:
-                if current_close(data) <=  three_candle_bear(data): 
-                #  and current_close(data) < 10:
+                if bullish_candle(data) \
+                 and current_close(data) >  is_inrange(data, percentage=2) \
+                 and current_close(data) <= previous_high(data):
 
                     stock.append(ticker)
                    
@@ -88,36 +89,23 @@ class Doji:
 
                     volume.append(current_volume(data))
 
-                elif current_close(data) < four_candel_bear(data):
-                     
-                    # and current_close(data) < 10:
-                    four_bearish.append(ticker)
-                    current2.append(current_close(data))
-                    volume2.append(current_volume(data))
+                    high.append(previous_high(data))
 
 
             except Exception as e:
                     print('Error: ', str(e))
 
-        df = pandas.DataFrame(stock, columns=['3Candles'])
+        df = pandas.DataFrame(stock, columns=['Break'])
         # df1 = df.assign(Change = change)
         df2 = df.assign(Price = current)
         df3 = df2.assign(Volume = volume)
-        df3.to_csv(f'./daily_stock/pull_back/3pull_back{end}'+'.csv')
-
-        # df_bearish = pandas.DataFrame(four_bearish, columns=['4Candles'])
-        # df_bearish2 = df_bearish.assign(Price = current2)
-        # df_bearish3 = df_bearish2.assign(Volume = volume2)
-        # df_bearish3.to_csv('./daily_stock/pull_back/4pull_back18oct' +'.csv')
+        df4 = df3.assign(High = high)
+        df3.to_csv('./daily_stock/break/break'+'.csv')
 
 
-        print(df3)
+        print(df4)
         print(stock)
-
-        # print(df_bearish3)
-        # print(four_bearish)
-
-    
+  
 
 doji = Doji(price_less5)
 print(doji)

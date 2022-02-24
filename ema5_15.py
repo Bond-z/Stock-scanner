@@ -84,7 +84,7 @@ if __name__ == "__main__":
                 
         except Exception as e:
             print('Error: ', str(e))
-    df2.to_csv('./daily_stock/ema2sep_EMA15'+'.csv')
+    df2.to_csv('./daily_stock/ema27oct_EMA15'+'.csv')
     print(df2)
     
   

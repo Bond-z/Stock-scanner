@@ -8,9 +8,9 @@ from set_stock import *
 
 
 
-start = "2021-06-1"
-end = datetime.datetime.now()
-# end = "2021-05-13"
+start = "2022-01-4"
+# end = datetime.datetime.now()
+end = "2022-02-18"
 
 def current_vol(data):
     current_vol = data[-1:]
