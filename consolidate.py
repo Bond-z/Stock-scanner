@@ -9,8 +9,8 @@ from set_stock import *
 class consolidating:
 
     start = "2021-01-01"
-    # end = datetime.datetime.now()
-    end = "2021-06-28"
+    end = datetime.datetime.now()
+    # end = "2021-06-28"
 
     def is_consolidating(df, percentage=5):
         recent_candlesticks = df[-15:]

@@ -15,7 +15,7 @@ import pandas_datareader.data as web
 import pylab
 from mplfinance.original_flavor import candlestick_ohlc
 from pandas.core.common import flatten
-from tabulate import tabulate
+# from tabulate import tabulate
 
 from stock import Stock
 
@@ -30,12 +30,13 @@ stocks = stocks if len(industrials) > 0 else [
 # Time frame you want to pull data from
 start = datetime.datetime.now()-datetime.timedelta(days=365)
 end = datetime.datetime.now()
+# end = "2022-1-27"
 
 
 if __name__ == "__main__":
 
     # Array of moving averages you want to get
-    MAarr = [5, 10, 200]
+    MAarr = [5, 15, 35, 89, 200]
 
     allData = []
 
@@ -61,10 +62,10 @@ if __name__ == "__main__":
                 # print(computedEMA)
                 data.append(computedEMA[-1])
 
-            currentRsi = float("{:.2f}".format(stock.rsi[-1]))z
+            currentRsi = float("{:.2f}".format(stock.rsi[-1]))
 
             if currentRsi > 70:
-                data.append(str(currentRsi) + " 🔥")
+                data.append(str(currentRsi))
             elif currentRsi >= 50 and currentRsi < 60:
                 data.append(str(currentRsi) + " \U0001f600")
             elif currentRsi < 40:
@@ -79,7 +80,7 @@ if __name__ == "__main__":
             # data.append(chartLink)
 
             allData.append(data)
-            df = pandas.DataFrame(allData, columns = ['Stock', 'Price', '5EMA', '10EMA', '200EMA', 'RSI'])
+            df = pandas.DataFrame(allData, columns = ['Stock', 'Price', '5EMA', '15EMA', '35EMA', '89EMA', '200EMA', 'RSI'])
             df.to_csv(f'./daily_stock/rsi{end}'+'.csv')
            
 
